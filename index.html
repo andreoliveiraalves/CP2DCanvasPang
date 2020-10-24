@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>PANG_GAME</title>
+    <style>
+        canvas {
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas class="center" id="myCanvas" width="600" height="475" style="border:solid 1px black">
+        Your browser does not support HTML5 Canvas.
+    </canvas>
+    <script>
+        const canvas = document.querySelector('#myCanvas');
+        const ctx = canvas.getContext("2d");
+        const W = canvas.width, H = canvas.height; 
+        let charX = W / 2 , charY = 305;
+        const floor = new Image();
+        floor.src = './img/tile.png'
+        const charL = new Image();
+        charL.src = './img/charL.png'
+        const charR = new Image();
+        charR.src = './img/charR.png'
+        const sky = new Image();
+        sky.src = './img/bg.png'
+        let direction = charR;
+
+
+        floor.onload = function () {
+            setInterval(render, 1000 / 30); 
+        };
+        charL.onload = function () {
+            setInterval(render, 1000 / 30); 
+        };
+        charR.onload = function () {
+            setInterval(render, 1000 / 30); 
+        };
+        sky.onload = function () {
+            setInterval(render, 1000 / 30);
+        };
+
+        function render() {
+            ctx.clearRect(0,0,W,H);
+            for(let i=0;i<6;i++){
+            ctx.drawImage(floor,100*i,430);
+            }
+            ctx.drawImage(sky,10,0,sky.width,sky.height,0,0,775,470);
+            ctx.drawImage(direction,charX,charY)
+            window.requestAnimationFrame(render);
+
+        
+            }
+            document.onkeydown = function (e) {
+switch (e.key) {
+case 'ArrowLeft': /*LEFT arrow*/ if(charX>0){charX-=20;direction=charL}; break;
+case 'ArrowRight': /*RIGHT arrow*/ if(charX<canvas.width-80){charX+=20;direction=charR}; break;
+}
+
+e.preventDefault();
+};
+            
+
+    </script>
+</body>
+
+</html>
