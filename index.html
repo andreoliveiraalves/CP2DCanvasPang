@@ -57,63 +57,66 @@
         // Construção de classe para as bolas //
 
         class Ball {
-            constructor(x, y, r, d, c) {       //construtor
+            constructor(x, y, r, d, c) { //construtor
                 this.R = r; //radius
                 this.x = x; // initial X position
                 this.y = y; // initial Y position
-                this.dX= 2*Math.cos(d);
-                this.dY = 2*Math.sin(d);   
-                this.c = c;             //cor
+                this.dX = 2 * Math.cos(d);
+                this.dY = 2 * Math.sin(d);
+                this.c = c; //cor
             }
             draw() {
                 ctx.fillStyle = this.c;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.R, 0, 2 * Math.PI);
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 2;
+                ctx.stroke();
                 ctx.fill();
             }
             update() {
-                
-                if (this.x < this.R || this.x > W- this.R)
-                        {this.dX = -this .dX}
-                        if (this.y < H/2 || this.y > H -this.R)
-                            { this.dY = -this.dY}
-                            this.x+= this .dX ;;// update horizontal position
-                            this.y+= this .dY ;;// update vertical position
-                    
+
+                if (this.x < this.R || this.x > W - this.R) {
+                    this.dX = -this.dX
+                }
+                if (this.y < 0 + this.R || this.y > 430 - this.R) {
+                    this.dY = -this.dY
+                }
+                this.x += this.dX;; // update horizontal position
+                this.y += this.dY;; // update vertical position
+
             }
         }
 
         // Criação de array para as bolas // 
-        
 
-        
-            // setup as many balls as wanted
-            let b = new Array();
-        for(let i=0;i<3;i++){
-        //random color
-        let R = Math.floor(Math.random() * 256);
-        let G = Math.floor(Math.random() * 256);
-        let B = Math.floor(Math.random() * 256);
-        let color = `rgb(${R},${G},${B})`; 
 
-        //random size
-        let radius = 10 + Math.random() * 20;
 
-        // random position in X
-        let xInit = W/2;
-        // above Canvas in Y
-        let yInit = H/2;
+        // setup as many balls as wanted
+        let b = new Array();
+        for (let i = 0; i < 3; i++) {
+            //random color
+            let R = Math.floor(Math.random() * 256);
+            let G = Math.floor(Math.random() * 256);
+            let B = Math.floor(Math.random() * 256);
+            let color = `rgb(${R},${G},${B})`;
 
-        //random velocity
-        let direction = Math.random () * 2 * Math.PI
-        // x, y, r, v, c
-        b.push(new Ball(xInit, yInit, radius, direction, color))
+            //random size
+            let radius = 40;
+
+            // random position in X
+            let xInit = 600 * Math.random();
+            // above Canvas in Y
+            let yInit = H / 4;
+
+            //random velocity
+            let direction = Math.random() * 2 * Math.PI
+            // x, y, r, v, c
+            b.push(new Ball(xInit, yInit, radius, direction, color))
         }
-    
-        
-        
+
         // Strings do Jogo // 
-        
+
         let hpTxt = 3;
 
         // Desenho inicial //
@@ -131,12 +134,13 @@
             ctx.drawImage(images['bg'], 10, 0, images['bg'].width, images['bg'].height, 0, 0, 1050, 470);
 
             // desenhar barra de status //
-            
-            ctx.drawImage(images['hp'],30,30,35,35);
-            ctx.fillText(hpTxt,75,60);
+
+            ctx.drawImage(images['hp'], 30, 30, 35, 35);
+            ctx.fillStyle = "black";
+            ctx.fillText(hpTxt, 75, 60);
             ctx.font = '30px fantasy';
         }
-        
+
 
         // função de atualização // 
 
@@ -150,13 +154,12 @@
         }
 
         //função de renderização //
-        
+
         function render() {
-                      
+
 
             drawBackground();
             update();
-            
             b.forEach(function (ball) {
                 ball.draw();
                 ball.update();
