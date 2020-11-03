@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <title>PANG_GAME</title>
     <style>
-        canvas {
+        canvas,
+        button {
             /* Centrar canvas na página */
             padding-left: 0;
             padding-right: 0;
@@ -20,6 +21,7 @@
     <canvas class="center" id="myCanvas" width="800" height="475" style="border:solid 1px black">
         Your browser does not support HTML5 Canvas.
     </canvas>
+    <button id="btn" onclick="multiplayer()">Multiplayer</button>
     <script>
         //obter contexto do canvas //
         const canvas = document.querySelector('#myCanvas');
@@ -31,8 +33,10 @@
 
         //Definição de coordenadas iniciais para o personagem //
         let charX = W / 2,
-            charY = 305;
-          
+            charY = 305,
+            char2X = W * 2 / 3,
+            char2Y = 305;
+
         //Carregando assets //
         let images = {};
 
@@ -49,11 +53,17 @@
         loadImage('tile');
         loadImage('hp');
         loadImage('bullet');
+        loadImage('char2L');
+        loadImage('char2R');
+        loadImage('charUp');
+        loadImage('char2Up');
 
         // Boleano de Controlo de direção //
-
+        let movesRight2 = false;
         let movesRight = true;
         let lookingUp = false;
+        let lookingUp2 = false;
+        let isMultiplayer = false;
 
         // Construção de classe para as bolas //
 
@@ -87,8 +97,8 @@
                 this.y += this.dY;; // update vertical position
 
             }
-            
-        }        
+
+        }
         // Criação de array para as bolas // 
 
         // setup as many balls as wanted
@@ -118,9 +128,6 @@
 
         let hpTxt = 3;
 
-        function ballsColition(){
-            
-        }
 
         // Desenho inicial //
 
@@ -147,11 +154,37 @@
         // função de atualização // 
 
         function update() {
-            if (movesRight == true) {
-                ctx.drawImage(images['charR'], charX, charY)
+            if (isMultiplayer == false) {
+                if (movesRight == true && lookingUp==false) {
+                    ctx.drawImage(images['charR'], charX, charY)
+                }
+                if (movesRight == false && lookingUp==false) {
+                    ctx.drawImage(images['charL'], charX, charY)
+                }
+                if (lookingUp == true) {
+                    ctx.drawImage(images['charUp'], charX, charY);
+                }
             } else {
-                ctx.drawImage(images['charL'], charX, charY)
+                if (movesRight == true) {
+                    ctx.drawImage(images['charR'], charX, charY)
+                    if (movesRight == false) {
+                        ctx.drawImage(images['charL'], charX, charY)
+                    }
+                    if (movesRight2 == true) {
+                        ctx.drawImage(images['char2R'], char2X, char2Y)
+                    }
+                    if (movesRight2 == false) {
+                        ctx.drawImage(images['char2L'], char2X, char2Y)
+                    }
+                }
+
             }
+        }
+
+
+        function multiplayer() {
+            isMultiplayer = true;
+            charX = W / 3;
 
         }
 
@@ -191,12 +224,25 @@
                     };
                     break;
                 case 'ArrowUp':
-                lookingUp = true;
-                break;
+                    lookingUp = true;
+                    break;
+                case 'a':
+                    char2X -= 30;
+                    movesRight2 = false;
+                    lookingUp2 = false;
+                    break;
+                case 'd':
+                    char2X += 30;
+                    movesRight2 = true;
+                    lookingUp2 = false;
+                    break;
+                case 'a':
+                    lookingUp2 = true;
+
             }
-            e.preventDefault();  
+            e.preventDefault();
         }
-        window.addEventListener("ArrowUp",onkeydown,false);
+        window.addEventListener("ArrowUp", onkeydown, false);
     </script>
 </body>
 
