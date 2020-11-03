@@ -53,6 +53,7 @@
         // Boleano de Controlo de direção //
 
         let movesRight = true;
+        let lookingUp = false;
 
         // Construção de classe para as bolas //
 
@@ -177,6 +178,7 @@
                     if (charX > 0) {
                         charX -= 20;
                         movesRight = false;
+                        lookingUp = false;
                     };
                     break;
                 case 'ArrowRight':
@@ -184,12 +186,15 @@
                     if (charX < canvas.width - 80) {
                         charX += 20;
                         movesRight = true
+                        lookingUp = false;
                     };
                     break;
+                case 'ArrowUp':
+                lookingUp = true;
             }
-
-            e.preventDefault();
+            e.preventDefault();  
         }
+        window.addEventListener("ArrowUp",onkeydown,false);
     </script>
 </body>
 
