@@ -32,8 +32,7 @@
         //Definição de coordenadas iniciais para o personagem //
         let charX = W / 2,
             charY = 305;
-
-
+          
         //Carregando assets //
         let images = {};
 
@@ -49,6 +48,7 @@
         loadImage('charR');
         loadImage('tile');
         loadImage('hp');
+        loadImage('bullet');
 
         // Boleano de Controlo de direção //
 
@@ -62,8 +62,8 @@
                 this.R = r; //radius
                 this.x = x; // initial X position
                 this.y = y; // initial Y position
-                this.dX = 2 * Math.cos(d);
-                this.dY = 2 * Math.sin(d);
+                this.dX = 3 * Math.cos(d);
+                this.dY = 6 * Math.sin(d);
                 this.c = c; //cor
             }
             draw() {
@@ -87,11 +87,9 @@
                 this.y += this.dY;; // update vertical position
 
             }
-        }
-
+            
+        }        
         // Criação de array para as bolas // 
-
-
 
         // setup as many balls as wanted
         let b = new Array();
@@ -106,19 +104,23 @@
             let radius = 40;
 
             // random position in X
-            let xInit = 600 * Math.random();
+            let xInit = 50 + 550 * Math.random();
             // above Canvas in Y
             let yInit = H / 4;
 
             //random velocity
             let direction = Math.random() * 2 * Math.PI
             // x, y, r, v, c
-            b.push(new Ball(xInit, yInit, radius, direction, color))
+            b.push(new Ball(xInit, yInit, radius, direction, color));
         }
 
         // Strings do Jogo // 
 
         let hpTxt = 3;
+
+        function ballsColition(){
+            
+        }
 
         // Desenho inicial //
 
@@ -141,7 +143,6 @@
             ctx.fillText(hpTxt, 75, 60);
             ctx.font = '30px fantasy';
         }
-
 
         // função de atualização // 
 
@@ -176,7 +177,7 @@
                 case 'ArrowLeft':
                     /*LEFT arrow*/
                     if (charX > 0) {
-                        charX -= 20;
+                        charX -= 30;
                         movesRight = false;
                         lookingUp = false;
                     };
@@ -184,13 +185,14 @@
                 case 'ArrowRight':
                     /*RIGHT arrow*/
                     if (charX < canvas.width - 80) {
-                        charX += 20;
+                        charX += 30;
                         movesRight = true
                         lookingUp = false;
                     };
                     break;
                 case 'ArrowUp':
                 lookingUp = true;
+                break;
             }
             e.preventDefault();  
         }
