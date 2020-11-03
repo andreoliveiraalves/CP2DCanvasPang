@@ -57,16 +57,13 @@
         // Construção de classe para as bolas //
 
         class Ball {
-
-
-            constructor(x, y, r, c, dx, dy) {
-                this.x = x; // Coordenada em X //
-                this.y = y; // Coordanada em Y //
-                this.r = r; // Raio //
-                this.c = c; // Cor //
-                this.dx = dx; // acelaração horizontal //
-                this.dy = dy; // acelalaração vertical //
-                this.pop = false; // estado para controlar quando bola é rebentada //
+            constructor(x, y, r, d, c) {       //construtor
+                this.R = r; //radius
+                this.x = x; // initial X position
+                this.y = y; // initial Y position
+                this.dX= 2*Math.cos(d);
+                this.dY = 2*Math.sin(d);   
+                this.c = c;             //cor
             }
             draw() {
                 ctx.fillStyle = this.c;
@@ -75,34 +72,46 @@
                 ctx.fill();
             }
             update() {
-
-                if (this.x > W - this.R || this.x < this.R) {
-                    this.dx = -dx;
-                } else if (this.y > H - this.R || this.y < this.R) {
-                    this.dy = -dy;
-                }
+                
+                if (this.x < this.R || this.x > W- this.R)
+                        {this.dX = -this .dX}
+                        if (this.y < H/2 || this.y > H -this.R)
+                            { this.dY = -this.dY}
+                            this.x+= this .dX ;;// update horizontal position
+                            this.y+= this .dY ;;// update vertical position
+                    
             }
         }
 
         // Criação de array para as bolas // 
-        let balls = new Array();
+        
 
-        function addballs() {
+        
             // setup as many balls as wanted
-            for (let i = 0; i < 4; i++) {
-                let R = Math.floor(Math.random() * 256);
-                let G = Math.floor(Math.random() * 256);
-                let B = Math.floor(Math.random() * 256);
-                let color = `rgb(${R},${G},${B})`; // random color
-                let r = 40;
-                // random position (inside Canvas)
-                let xInit = 40 + Math.random() * (W - 2 * 40);
-                let yInit = 80;
+            let b = new Array();
+        for(let i=0;i<3;i++){
+        //random color
+        let R = Math.floor(Math.random() * 256);
+        let G = Math.floor(Math.random() * 256);
+        let B = Math.floor(Math.random() * 256);
+        let color = `rgb(${R},${G},${B})`; 
 
-                balls.push(new Ball(xInit, yInit, r, color, 2, 4));
-            }
+        //random size
+        let radius = 10 + Math.random() * 20;
+
+        // random position in X
+        let xInit = W/2;
+        // above Canvas in Y
+        let yInit = H/2;
+
+        //random velocity
+        let direction = Math.random () * 2 * Math.PI
+        // x, y, r, v, c
+        b.push(new Ball(xInit, yInit, radius, direction, color))
         }
-        addballs();
+    
+        
+        
         // Strings do Jogo // 
         
         let hpTxt = 3;
@@ -143,10 +152,12 @@
         //função de renderização //
         
         function render() {
+                      
 
             drawBackground();
             update();
-            balls.forEach(function (ball) {
+            
+            b.forEach(function (ball) {
                 ball.draw();
                 ball.update();
             });
