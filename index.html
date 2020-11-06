@@ -38,6 +38,7 @@
             char2Y = 305,
             bullet1Y = 250;
             bullet2Y = 250;
+            ballsnumber = 3;
             
 
         //Carregando assets //
@@ -112,7 +113,7 @@
 
         // setup as many balls as wanted
         let b = new Array();
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < ballsnumber; i++) {
             //random color
             let R = Math.floor(Math.random() * 256);
             let G = Math.floor(Math.random() * 256);
@@ -134,8 +135,18 @@
             b.push(new Ball(xInit, yInit, radius, direction,a, color));
         }
 
+        function multiplayer() {
+            if (isMultiplayer == true){
+                window.location.reload();
+            }
+            else{
+            isMultiplayer = true;
+            charX = W / 3;
+            ballsnumber= 5;
+            }
+        }
         // Strings do Jogo // 
-
+        
         let hpTxt = 3;
         
         function shoot(){
@@ -216,16 +227,6 @@
             }
         }
 
-
-        function multiplayer() {
-            if (isMultiplayer == true){
-                window.location.reload();
-            }
-            else{
-            isMultiplayer = true;
-            charX = W / 3;
-            }
-        }
 
         //função de renderização //
 
