@@ -35,7 +35,9 @@
         let charX = W / 2,
             charY = 305,
             char2X = W * 2 / 3,
-            char2Y = 305;
+            char2Y = 305,
+            bullet1Y = 250;
+            
 
         //Carregando assets //
         let images = {};
@@ -57,6 +59,8 @@
         loadImage('char2R');
         loadImage('charUp');
         loadImage('char2Up');
+        loadImage('shoot1');
+        loadImage('shoot2');
 
         // Boleano de Controlo de direção //
         let movesRight2 = false;
@@ -72,9 +76,9 @@
                 this.R = r; //radius
                 this.x = x; // initial X position
                 this.y = y; // initial Y position
+                this.a = a;
                 this.dX = 6 * Math.cos(-d);
                 this.dY = 3 * Math.sin(-d/2);
-                this.a=a
                 this.c = c; //cor
             }
             draw() {
@@ -91,16 +95,12 @@
                 if (this.x < this.R || this.x > W - this.R) {
                     this.dX = -this.dX
                 }
-                
                 if (this.y < 0 + this.R || this.y > 430 - this.R) {
-                  this.dY = -this.dY
-                  
+                    this.dY = -this.dY
                 }
                 else{
                     this.dY+=this.a
                 }
-                
-                
                 this.x += this.dX;; // update horizontal position
                 this.y += this.dY;; // update vertical position
 
@@ -124,18 +124,26 @@
             // random position in X
             let xInit = 50 + 550 * Math.random();
             // above Canvas in Y
-            let yInit = H / 4;
+            let yInit = H / 5;
 
             //random velocity
-            let direction = Math.random() * 2 * Math.PI
+            let direction = Math.random() * 2 * Math.PI;
+            let a = 0.2;
             // x, y, r, v, c
-            let a =0.2
             b.push(new Ball(xInit, yInit, radius, direction,a, color));
         }
 
         // Strings do Jogo // 
 
         let hpTxt = 3;
+        
+        function shoot(){
+            while(bullet1Y!=-55){
+            ctx.drawImage(images['shoot1'],charX+56,bullet1Y+50,10,13)
+            bullet1Y-=5;
+            }
+            bullet1Y=250;
+        }
 
 
         // Desenho inicial //
@@ -172,6 +180,7 @@
                 }
                 if (lookingUp == true) {
                     ctx.drawImage(images['charUp'], charX, charY);
+                    shoot();
                 }
             } else {
                 if (movesRight == true && lookingUp == false) {
@@ -197,9 +206,13 @@
 
 
         function multiplayer() {
+            if (isMultiplayer == true){
+                window.location.reload();
+            }
+            else{
             isMultiplayer = true;
             charX = W / 3;
-
+            }
         }
 
         //função de renderização //
