@@ -34,6 +34,8 @@
         //Definição de coordenadas iniciais para o personagem //
         let charX = W / 2,
             charY = 305,
+            charwidth =85,
+            charHeight =130,
             char2X = W * 2 / 3,
             char2Y = 305,
             bullet1Y = 250;
@@ -93,7 +95,16 @@
                 ctx.fill();
             }
             update() {
-
+                if((this.x+this.R>=charX && this.x+this.R<= charX+charwidth+15)&& this.y+this.R>=charY+10){
+                    this.dX=-this.dX;
+                    this.dY=-this.dY;
+                    hpTxt--;
+                }
+                if((this.x+this.R>=char2X && this.x+this.R<= char2X+charwidth+15)&& this.y+this.R>=char2Y+10){
+                    this.dX=-this.dX;
+                    this.dY=-this.dY;
+                    hpTxt2--;
+                }
                 if (this.x < this.R || this.x > W - this.R) {
                     this.dX = -this.dX
                 }
@@ -104,7 +115,7 @@
                 }
                 this.x += this.dX;; // update horizontal position
                 this.y += this.dY;; // update vertical position
-
+                
             }
 
         }
@@ -229,8 +240,6 @@
                 }
             }
         }
-
-
         //função de renderização //
 
         function render() {
@@ -260,7 +269,7 @@
                     break;
                 case 'ArrowRight':
                     /*RIGHT arrow*/
-                    if (charX < canvas.width - 80) {
+                    if (charX < canvas.width - 90) {
                         charX += 30;
                         movesRight = true
                         lookingUp = false;
@@ -270,14 +279,18 @@
                     lookingUp = true;
                     break;
                 case 'a':
+                if( char2X > 0){
                     char2X -= 30;
                     movesRight2 = false;
                     lookingUp2 = false;
+                }
                     break;
                 case 'd':
+                if (char2X < canvas.width-90){
                     char2X += 30;
                     movesRight2 = true;
                     lookingUp2 = false;
+                }
                     break;
                 case 'w':
                     lookingUp2 = true;
