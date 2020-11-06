@@ -155,29 +155,34 @@
 
         function update() {
             if (isMultiplayer == false) {
-                if (movesRight == true && lookingUp==false) {
-                    ctx.drawImage(images['charR'], charX, charY)
+                if (movesRight == true && lookingUp == false) {
+                    ctx.drawImage(images['charR'], charX, charY);
                 }
-                if (movesRight == false && lookingUp==false) {
+                if (movesRight == false && lookingUp == false) {
                     ctx.drawImage(images['charL'], charX, charY)
                 }
                 if (lookingUp == true) {
                     ctx.drawImage(images['charUp'], charX, charY);
                 }
             } else {
-                if (movesRight == true) {
-                    ctx.drawImage(images['charR'], charX, charY)
-                    if (movesRight == false) {
-                        ctx.drawImage(images['charL'], charX, charY)
-                    }
-                    if (movesRight2 == true) {
-                        ctx.drawImage(images['char2R'], char2X, char2Y)
-                    }
-                    if (movesRight2 == false) {
-                        ctx.drawImage(images['char2L'], char2X, char2Y)
-                    }
+                if (movesRight == true && lookingUp == false) {
+                    ctx.drawImage(images['charR'], charX, charY);
                 }
-
+                if (movesRight == false && lookingUp == false) {
+                    ctx.drawImage(images['charL'], charX, charY);
+                }
+                if (lookingUp == true){
+                    ctx.drawImage(images['charUp'], charX, charY);
+                }
+                if (movesRight2 == true && lookingUp2 == false) {
+                    ctx.drawImage(images['char2R'], char2X, char2Y);
+                }
+                if (movesRight2 == false && lookingUp2 == false) {
+                    ctx.drawImage(images['char2L'], char2X, char2Y);
+                }
+                if (lookingUp2 == true){
+                    ctx.drawImage(images['char2Up'], char2X, char2Y);
+                }
             }
         }
 
@@ -236,7 +241,7 @@
                     movesRight2 = true;
                     lookingUp2 = false;
                     break;
-                case 'a':
+                case 'w':
                     lookingUp2 = true;
 
             }
