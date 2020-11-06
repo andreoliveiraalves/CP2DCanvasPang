@@ -37,6 +37,7 @@
             char2X = W * 2 / 3,
             char2Y = 305,
             bullet1Y = 250;
+            bullet2Y = 250;
             
 
         //Carregando assets //
@@ -138,11 +139,20 @@
         let hpTxt = 3;
         
         function shoot(){
+            if(lookingUp == true){
             while(bullet1Y!=-55){
             ctx.drawImage(images['shoot1'],charX+56,bullet1Y+50,10,13)
             bullet1Y-=5;
             }
             bullet1Y=250;
+            }
+            if(lookingUp2 == true){
+                while(bullet2Y!=55){
+                    ctx.drawImage(images['shoot2'],char2X+56,bullet2Y+50,10,13)
+                    bullet2Y-=5;
+                }
+                bullet2Y=250;
+            }
         }
 
 
@@ -191,6 +201,7 @@
                 }
                 if (lookingUp == true){
                     ctx.drawImage(images['charUp'], charX, charY);
+                    shoot();
                 }
                 if (movesRight2 == true && lookingUp2 == false) {
                     ctx.drawImage(images['char2R'], char2X, char2Y);
@@ -200,6 +211,7 @@
                 }
                 if (lookingUp2 == true){
                     ctx.drawImage(images['char2Up'], char2X, char2Y);
+                    shoot();
                 }
             }
         }
