@@ -37,9 +37,9 @@
             char2X = W * 2 / 3,
             char2Y = 305,
             bullet1Y = 250;
-            bullet2Y = 250;
-            ballsnumber = 3;
-            
+        bullet2Y = 250;
+        ballsnumber = 3;
+
 
         //Carregando assets //
         let images = {};
@@ -56,7 +56,7 @@
         loadImage('charR');
         loadImage('tile');
         loadImage('hp');
-        loadImage('bullet');
+        loadImage('hp2')
         loadImage('char2L');
         loadImage('char2R');
         loadImage('charUp');
@@ -74,13 +74,13 @@
         // Construção de classe para as bolas //
 
         class Ball {
-            constructor(x, y, r, d,a, c) { //construtor
+            constructor(x, y, r, d, a, c) { //construtor
                 this.R = r; //radius
                 this.x = x; // initial X position
                 this.y = y; // initial Y position
                 this.a = a;
                 this.dX = 6 * Math.cos(-d);
-                this.dY = 3 * Math.sin(-d/2);
+                this.dY = 3 * Math.sin(-d / 2);
                 this.c = c; //cor
             }
             draw() {
@@ -99,9 +99,8 @@
                 }
                 if (this.y < 0 + this.R || this.y > 430 - this.R) {
                     this.dY = -this.dY
-                }
-                else{
-                    this.dY+=this.a
+                } else {
+                    this.dY += this.a
                 }
                 this.x += this.dX;; // update horizontal position
                 this.y += this.dY;; // update vertical position
@@ -132,37 +131,37 @@
             let direction = Math.random() * 2 * Math.PI;
             let a = 0.2;
             // x, y, r, v, c
-            b.push(new Ball(xInit, yInit, radius, direction,a, color));
+            b.push(new Ball(xInit, yInit, radius, direction, a, color));
         }
 
         function multiplayer() {
-            if (isMultiplayer == true){
+            if (isMultiplayer == true) {
                 window.location.reload();
-            }
-            else{
-            isMultiplayer = true;
-            charX = W / 3;
-            ballsnumber= 5;
+            } else {
+                isMultiplayer = true;
+                charX = W / 3;
+                ballsnumber = 5;
             }
         }
         // Strings do Jogo // 
-        
+
         let hpTxt = 3;
-        
-        function shoot(){
-            if(lookingUp == true){
-            while(bullet1Y!=-55){
-            ctx.drawImage(images['shoot1'],charX+56,bullet1Y+50,10,13)
-            bullet1Y-=5;
-            }
-            bullet1Y=250;
-            }
-            if(lookingUp2 == true){
-                while(bullet2Y!=-55){
-                    ctx.drawImage(images['shoot2'],char2X+56,bullet2Y+50,10,13)
-                    bullet2Y-=5;
+        let hpTxt2 = 3;
+
+        function shoot() {
+            if (lookingUp == true) {
+                while (bullet1Y != -55) {
+                    ctx.drawImage(images['shoot1'], charX + 56, bullet1Y + 50, 10, 13)
+                    bullet1Y -= 5;
                 }
-                bullet2Y=250;
+                bullet1Y = 250;
+            }
+            if (lookingUp2 == true) {
+                while (bullet2Y != -55) {
+                    ctx.drawImage(images['shoot2'], char2X + 56, bullet2Y + 50, 10, 13)
+                    bullet2Y -= 5;
+                }
+                bullet2Y = 250;
             }
         }
 
@@ -204,13 +203,17 @@
                     shoot();
                 }
             } else {
+                ctx.drawImage(images['hp2'], 30, 70, 35, 35);
+                ctx.fillStyle = "black";
+                ctx.fillText(hpTxt2, 75, 100);
+                ctx.font = '30px fantasy';
                 if (movesRight == true && lookingUp == false) {
                     ctx.drawImage(images['charR'], charX, charY);
                 }
                 if (movesRight == false && lookingUp == false) {
                     ctx.drawImage(images['charL'], charX, charY);
                 }
-                if (lookingUp == true){
+                if (lookingUp == true) {
                     ctx.drawImage(images['charUp'], charX, charY);
                     shoot();
                 }
@@ -220,7 +223,7 @@
                 if (movesRight2 == false && lookingUp2 == false) {
                     ctx.drawImage(images['char2L'], char2X, char2Y);
                 }
-                if (lookingUp2 == true){
+                if (lookingUp2 == true) {
                     ctx.drawImage(images['char2Up'], char2X, char2Y);
                     shoot();
                 }
