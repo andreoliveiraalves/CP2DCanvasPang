@@ -68,12 +68,13 @@
         // Construção de classe para as bolas //
 
         class Ball {
-            constructor(x, y, r, d, c) { //construtor
+            constructor(x, y, r, d,a, c) { //construtor
                 this.R = r; //radius
                 this.x = x; // initial X position
                 this.y = y; // initial Y position
-                this.dX = 3 * Math.cos(d);
-                this.dY = 6 * Math.sin(d);
+                this.dX = 6 * Math.cos(-d);
+                this.dY = 3 * Math.sin(-d/2);
+                this.a=a
                 this.c = c; //cor
             }
             draw() {
@@ -90,9 +91,16 @@
                 if (this.x < this.R || this.x > W - this.R) {
                     this.dX = -this.dX
                 }
+                
                 if (this.y < 0 + this.R || this.y > 430 - this.R) {
-                    this.dY = -this.dY
+                  this.dY = -this.dY
+                  
                 }
+                else{
+                    this.dY+=this.a
+                }
+                
+                
                 this.x += this.dX;; // update horizontal position
                 this.y += this.dY;; // update vertical position
 
@@ -121,7 +129,8 @@
             //random velocity
             let direction = Math.random() * 2 * Math.PI
             // x, y, r, v, c
-            b.push(new Ball(xInit, yInit, radius, direction, color));
+            let a =0.2
+            b.push(new Ball(xInit, yInit, radius, direction,a, color));
         }
 
         // Strings do Jogo // 
