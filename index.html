@@ -103,10 +103,6 @@
                     if (hpTxt>=1){
                     hpTxt--;
                     }
-                /*if (lookingUp==true && this.x + this.R >= charX && this.x + this.R <= charX + charwidth ){
-                    this.dX = -this.dX;
-                    this.dy = -this.dY;
-                }*/
                 }
                 if (isMultiplayer === true) {
                     if ((this.x + this.R >= char2X && this.x + this.R <= char2X + charwidth + 15) && this.y + this
@@ -133,26 +129,26 @@
             }
 
         }
+        let R,G,B;
+        let color = ''
         // Criação de array para as bolas // 
+        let radius = 20;
+        let xInit = 50;
+        let yInit = H / 5;
+        let direction = 2 * Math.PI;
+        let a = 0.15;
         let b = new Array();
+
         for (let i = 0; i < ballsnumber; i++) {
+            xInit = 50;
             //random color
-            let R = Math.floor(Math.random() * 256);
-            let G = Math.floor(Math.random() * 256);
-            let B = Math.floor(Math.random() * 256);
-            let color = `rgb(${R},${G},${B})`;
-
-            //random size
-            let radius = 40;
-
+            R = Math.floor(Math.random() * 256);
+            G = Math.floor(Math.random() * 256);
+            B = Math.floor(Math.random() * 256);
+            color = `rgb(${R},${G},${B})`;
             // random position in X
-            let xInit = 50 + 550 * Math.random();
-            // above Canvas in Y
-            let yInit = H / 5;
-
-            //random velocity
-            let direction = Math.random() * 2 * Math.PI;
-            let a = 0.15;
+            xInit+= 400 * Math.random();
+            direction*= Math.random()
             // x, y, r, v, c
             b.push(new Ball(xInit, yInit, radius, direction, a, color));
         }
@@ -171,19 +167,35 @@
 
         let hpTxt = 3;
         let hpTxt2 = 3;
+        let shooting = false
+        let shooting1 = false
+        let x=0
+        let x1=0;
 
         function shoot1() {
-
-            ctx.drawImage(images['shoot1'], charX + 56, bullet1Y + 50, 10, 13)
+            
+            
+            if(x==0){
+                x=charX
+            }
+            if(x!=charX||x==charX){
+                
+                ctx.drawImage(images['shoot1'], x + 56, bullet1Y + 50, 10, 13)
             ctx.strokeStyle = "black"
             ctx.beginPath();
-            ctx.moveTo(charX + 62, bullet1Y + 60);
-            ctx.lineTo(charX + 62, bullet1Y - 10 + 300);
+            ctx.moveTo(x + 62, bullet1Y + 60);
+            ctx.lineTo(x + 62, bullet1Y - 10 + 300);
             ctx.stroke();
             bullet1Y -= 5;
             if (bullet1Y == -55) {
                 bullet1Y = 50;
                 lookingUp = false
+                shooting=false
+                x=0
+            }
+            
+            
+            
             }
         }
 
@@ -194,16 +206,27 @@
 
         function shoot2() {
 
-            ctx.drawImage(images['shoot2'], char2X + 56, bullet2Y + 50, 10, 13)
+            if(x1==0){
+                x1=char2X
+            }
+            if(x1!=char2X||x1==char2X){
+                
+                ctx.drawImage(images['shoot2'], x1 + 56, bullet1Y + 50, 10, 13)
             ctx.strokeStyle = "black"
             ctx.beginPath();
-            ctx.moveTo(char2X + 62, bullet2Y + 60);
-            ctx.lineTo(char2X + 62, bullet2Y - 10 + 300);
+            ctx.moveTo(x1 + 62, bullet1Y + 60);
+            ctx.lineTo(x1 + 62, bullet1Y - 10 + 300);
             ctx.stroke();
-            bullet2Y -= 5;
-            if (bullet2Y == -55) {
-                bullet2Y = 50;
+            bullet1Y -= 5;
+            if (bullet1Y == -55) {
+                bullet1Y = 50;
                 lookingUp2 = false
+                shooting1=false
+                x1=0
+            }
+            
+            
+            
             }
         }
 
@@ -232,6 +255,12 @@
         // função de atualização // 
 
         function update() {
+            if(shooting==true){
+                        shoot1();
+                    }
+            if(shooting1==true){
+                        shoot2();
+                    }
             if (isMultiplayer == false) {
                 if (movesRight == true && lookingUp == false) {
                     ctx.drawImage(images['charR'], charX, charY);
@@ -240,9 +269,9 @@
                     ctx.drawImage(images['charL'], charX, charY)
                 }
                 if (lookingUp == true) {
-
+                     shooting= true
                     ctx.drawImage(images['charUp'], charX, charY);
-                    shoot1();
+                    
                 }
             } else {
                 ctx.drawImage(images['hp2'], 30, 70, 35, 35);
@@ -256,8 +285,9 @@
                     ctx.drawImage(images['charL'], charX, charY);
                 }
                 if (lookingUp == true) {
+                    shooting=true
                     ctx.drawImage(images['charUp'], charX, charY);
-                    shoot1();
+                    
                 }
                 if (movesRight2 == true && lookingUp2 == false) {
                     ctx.drawImage(images['char2R'], char2X, char2Y);
@@ -266,8 +296,9 @@
                     ctx.drawImage(images['char2L'], char2X, char2Y);
                 }
                 if (lookingUp2 == true) {
+                    shooting1=true
                     ctx.drawImage(images['char2Up'], char2X, char2Y);
-                    shoot2();
+                    
                 }
             }
         }
