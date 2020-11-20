@@ -34,12 +34,12 @@
         //Definição de coordenadas iniciais para o personagem //
         let charX = W / 2,
             charY = 305,
-            charwidth =85,
-            charHeight =130,
+            charwidth = 85,
+            charHeight = 130,
             char2X = W * 2 / 3,
             char2Y = 305,
-            bullet1Y = 250;
-        bullet2Y = 250;
+            bullet1Y = 50;
+        bullet2Y = 50;
         ballsnumber = 3;
 
 
@@ -95,15 +95,25 @@
                 ctx.fill();
             }
             update() {
-                if((this.x+this.R>=charX && this.x+this.R<= charX+charwidth +10)&& this.y+this.R>=charY){
-                    this.dX=-this.dX;
-                    this.dY=-this.dY;
+                if ((this.x + this.R >= charX && this.x + this.R <= charX + charwidth +15) && this.y + this
+                    .R >=
+                    charY) {
+                    this.dX = this.dX;
+                    this.dY = -this.dY;
+                    if (hpTxt>=1){
                     hpTxt--;
+                    }
                 }
-                if((this.x+this.R>=char2X && this.x+this.R<= char2X+charwidth+15)&& this.y+this.R>=char2Y+10){
-                    this.dX=-this.dX;
-                    this.dY=-this.dY;
+                if (isMultiplayer === true) {
+                    if ((this.x + this.R >= char2X && this.x + this.R <= char2X + charwidth + 15) && this.y + this
+                        .R >=
+                        char2Y) {
+                        this.dX = -this.dX;
+                        this.dY = -this.dY;
+                        if (hpTxt2>=1){
                     hpTxt2--;
+                    }
+                    }
                 }
                 if (this.x < this.R || this.x > W - this.R) {
                     this.dX = -this.dX
@@ -115,13 +125,11 @@
                 }
                 this.x += this.dX;; // update horizontal position
                 this.y += this.dY;; // update vertical position
-                
+
             }
 
         }
         // Criação de array para as bolas // 
-
-        // setup as many balls as wanted
         let b = new Array();
         for (let i = 0; i < ballsnumber; i++) {
             //random color
@@ -144,6 +152,7 @@
             // x, y, r, v, c
             b.push(new Ball(xInit, yInit, radius, direction, a, color));
         }
+        
 
         function multiplayer() {
             if (isMultiplayer == true) {
@@ -158,41 +167,41 @@
 
         let hpTxt = 3;
         let hpTxt2 = 3;
-        
+
         function shoot1() {
-            
 
-            
-                ctx.drawImage(images['shoot1'], charX + 56, bullet1Y + 50, 10, 13)
-                ctx.strokeStyle = "black"
-                ctx.beginPath();
-                ctx.moveTo(charX+62, bullet1Y+60);
-                ctx.lineTo(charX+62, bullet1Y-10+550 );
-                ctx.stroke();
-                bullet1Y-=5;
-                if(bullet1Y==-55){
-                    bullet1Y=250;
-                    lookingUp=false
-                }
-                console.log(bullet1Y)
-                }
-            function shoot2(){
-            
-                while (bullet2Y != -55) {
-                    ctx.drawImage(images['shoot2'], char2X + 56, bullet2Y + 50, 10, 13)
-                    bullet2Y -= 5;
-                }
-                bullet2Y = 250;
+            ctx.drawImage(images['shoot1'], charX + 56, bullet1Y + 50, 10, 13)
+            ctx.strokeStyle = "black"
+            ctx.beginPath();
+            ctx.moveTo(charX + 62, bullet1Y + 60);
+            ctx.lineTo(charX + 62, bullet1Y - 10 + 300);
+            ctx.stroke();
+            bullet1Y -= 5;
+            if (bullet1Y == -55) {
+                bullet1Y = 50;
+                lookingUp = false
             }
-            
-        
-        function update_shoot(){
-            bullet1Y-=5
-            }
-               
-            
-        
+        }
 
+        function update_shoot() {
+            bullet1Y -= 0.5;
+            bullet2Y -= 0.5
+        }
+
+        function shoot2() {
+
+            ctx.drawImage(images['shoot2'], char2X + 56, bullet2Y + 50, 10, 13)
+            ctx.strokeStyle = "black"
+            ctx.beginPath();
+            ctx.moveTo(char2X + 62, bullet2Y + 60);
+            ctx.lineTo(char2X + 62, bullet2Y - 10 + 300);
+            ctx.stroke();
+            bullet2Y -= 5;
+            if (bullet2Y == -55) {
+                bullet2Y = 50;
+                lookingUp2 = false
+            }
+        }
 
         // Desenho inicial //
 
@@ -227,7 +236,7 @@
                     ctx.drawImage(images['charL'], charX, charY)
                 }
                 if (lookingUp == true) {
-                    
+
                     ctx.drawImage(images['charUp'], charX, charY);
                     shoot1();
                 }
@@ -261,9 +270,7 @@
         //função de renderização //
 
         function render() {
-            
 
-            
             drawBackground();
             update();
             b.forEach(function (ball) {
@@ -298,18 +305,18 @@
                     lookingUp = true;
                     break;
                 case 'a':
-                if( char2X > 0){
-                    char2X -= 30;
-                    movesRight2 = false;
-                    lookingUp2 = false;
-                }
+                    if (char2X > 0) {
+                        char2X -= 30;
+                        movesRight2 = false;
+                        lookingUp2 = false;
+                    }
                     break;
                 case 'd':
-                if (char2X < canvas.width-90){
-                    char2X += 30;
-                    movesRight2 = true;
-                    lookingUp2 = false;
-                }
+                    if (char2X < canvas.width - 90) {
+                        char2X += 30;
+                        movesRight2 = true;
+                        lookingUp2 = false;
+                    }
                     break;
                 case 'w':
                     lookingUp2 = true;
