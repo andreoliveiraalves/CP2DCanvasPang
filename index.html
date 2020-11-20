@@ -158,23 +158,40 @@
 
         let hpTxt = 3;
         let hpTxt2 = 3;
+        
+        function shoot1() {
+            
 
-        function shoot() {
-            if (lookingUp == true) {
-                while (bullet1Y != -55) {
-                    ctx.drawImage(images['shoot1'], charX + 56, bullet1Y + 50, 10, 13)
-                    bullet1Y -= 5;
+            
+                ctx.drawImage(images['shoot1'], charX + 56, bullet1Y + 50, 10, 13)
+                ctx.strokeStyle = "black"
+                ctx.beginPath();
+                ctx.moveTo(charX+62, bullet1Y+60);
+                ctx.lineTo(charX+62, bullet1Y-10+550 );
+                ctx.stroke();
+                bullet1Y-=5;
+                if(bullet1Y==-55){
+                    bullet1Y=250;
+                    lookingUp=false
                 }
-                bullet1Y = 250;
-            }
-            if (lookingUp2 == true) {
+                console.log(bullet1Y)
+                }
+            function shoot2(){
+            
                 while (bullet2Y != -55) {
                     ctx.drawImage(images['shoot2'], char2X + 56, bullet2Y + 50, 10, 13)
                     bullet2Y -= 5;
                 }
                 bullet2Y = 250;
             }
-        }
+            
+        
+        function update_shoot(){
+            bullet1Y-=5
+            }
+               
+            
+        
 
 
         // Desenho inicial //
@@ -210,8 +227,9 @@
                     ctx.drawImage(images['charL'], charX, charY)
                 }
                 if (lookingUp == true) {
+                    
                     ctx.drawImage(images['charUp'], charX, charY);
-                    shoot();
+                    shoot1();
                 }
             } else {
                 ctx.drawImage(images['hp2'], 30, 70, 35, 35);
@@ -226,7 +244,7 @@
                 }
                 if (lookingUp == true) {
                     ctx.drawImage(images['charUp'], charX, charY);
-                    shoot();
+                    shoot1();
                 }
                 if (movesRight2 == true && lookingUp2 == false) {
                     ctx.drawImage(images['char2R'], char2X, char2Y);
@@ -236,15 +254,16 @@
                 }
                 if (lookingUp2 == true) {
                     ctx.drawImage(images['char2Up'], char2X, char2Y);
-                    shoot();
+                    shoot2();
                 }
             }
         }
         //função de renderização //
 
         function render() {
+            
 
-
+            
             drawBackground();
             update();
             b.forEach(function (ball) {
