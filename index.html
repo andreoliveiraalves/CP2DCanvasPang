@@ -74,6 +74,15 @@
         let isMultiplayer = false;
 
         // Construção de classe para as bolas //
+        let R, G, B;
+        let color = ''
+        // Criação de array para as bolas // 
+        let radius = 40;
+        let xInit = 50;
+        let yInit = H / 5;
+        let direction = 2 * Math.PI;
+        let a = 0.15;
+        let b = new Array();
 
         class Ball {
             constructor(x, y, r, d, a, c) { //construtor
@@ -98,11 +107,26 @@
                 if ((this.x + this.R >= charX && this.x + this.R <= charX + charwidth) && this.y + this
                     .R >=
                     charY) {
-                        this.dX = -this.dX
+                    this.dX = -this.dX
                     this.dY = -this.dY;
-                    if (hpTxt>=1){
-                    hpTxt--;
+                    if (hpTxt >= 1) {
+                        hpTxt--;
                     }
+                    if(radius==40){
+                    createBall(radius/2,direction);
+                    direction=-direction;
+                    createBall(radius/2,direction);
+                    direction=-direction;
+                    radius=20;
+                    }
+                    else{
+                    createBall(radius/4,direction);
+                    direction=-direction;
+                    createBall(radius/4,direction);
+                    direction=-direction;
+
+                    }
+                    
                 }
                 if (isMultiplayer === true) {
                     if ((this.x + this.R >= char2X && this.x + this.R <= char2X + charwidth + 15) && this.y + this
@@ -110,9 +134,9 @@
                         char2Y) {
                         this.dX = -this.dX;
                         this.dY = -this.dY;
-                        if (hpTxt2>=1){
-                    hpTxt2--;
-                    }
+                        if (hpTxt2 >= 1) {
+                            hpTxt2--;
+                        }
                     }
                 }
                 if (this.x < this.R || this.x > W - this.R) {
@@ -129,17 +153,9 @@
             }
 
         }
-        let R,G,B;
-        let color = ''
-        // Criação de array para as bolas // 
-        let radius = 40;
-        let xInit = 50;
-        let yInit = H / 5;
-        let direction = 2 * Math.PI;
-        let a = 0.15;
-        let b = new Array();
+        
 
-        function createBall(){
+        function createBall(myradius,mydirection) {
             xInit = 50;
             //random color
             R = Math.floor(Math.random() * 256);
@@ -147,14 +163,14 @@
             B = Math.floor(Math.random() * 256);
             color = `rgb(${R},${G},${B})`;
             // random position in X
-            xInit+= 400 * Math.random();
-            direction*= Math.random()
+            xInit += 400 * Math.random();
+            direction *= Math.random()
             // x, y, r, v, c
-            b.push(new Ball(xInit, yInit, radius, direction, a, color));
+            b.push(new Ball(xInit, yInit, myradius, mydirection, a, color));
         }
 
-        for(let i=0;i<3;i++){
-        createBall();
+        for (let i = 0; i < 1; i++) {
+            createBall(radius,direction);
         }
 
         function multiplayer() {
@@ -164,8 +180,8 @@
                 isMultiplayer = true;
                 charX = W / 3;
                 b = []
-                for(let i=0;i<5;i++){
-                    createBall();
+                for (let i = 0; i < 5; i++) {
+                    createBall(radiusn,direction);
                 }
             }
         }
@@ -176,33 +192,33 @@
         let level = 1;
         let shooting = false;
         let shooting1 = false;
-        let x=0;
-        let x1=0;
+        let x = 0;
+        let x1 = 0;
 
         function shoot1() {
-            
-            
-            if(x==0){
-                x=charX
+
+
+            if (x == 0) {
+                x = charX
             }
-            if(x!=charX||x==charX){
-                
+            if (x != charX || x == charX) {
+
                 ctx.drawImage(images['shoot1'], x + 56, bullet1Y + 50, 10, 13)
-            ctx.strokeStyle = "black"
-            ctx.beginPath();
-            ctx.moveTo(x + 62, bullet1Y + 60);
-            ctx.lineTo(x + 62, bullet1Y - 10 + 300);
-            ctx.stroke();
-            bullet1Y -= 5;
-            if (bullet1Y == -55) {
-                bullet1Y = 50;
-                lookingUp = false
-                shooting=false
-                x=0
-            }
-            
-            
-            
+                ctx.strokeStyle = "black"
+                ctx.beginPath();
+                ctx.moveTo(x + 62, bullet1Y + 60);
+                ctx.lineTo(x + 62, bullet1Y - 10 + 300);
+                ctx.stroke();
+                bullet1Y -= 5;
+                if (bullet1Y == -55) {
+                    bullet1Y = 50;
+                    lookingUp = false
+                    shooting = false
+                    x = 0
+                }
+
+
+
             }
         }
 
@@ -213,27 +229,27 @@
 
         function shoot2() {
 
-            if(x1==0){
-                x1=char2X
+            if (x1 == 0) {
+                x1 = char2X
             }
-            if(x1!=char2X||x1==char2X){
-                
+            if (x1 != char2X || x1 == char2X) {
+
                 ctx.drawImage(images['shoot2'], x1 + 56, bullet1Y + 50, 10, 13)
-            ctx.strokeStyle = "black"
-            ctx.beginPath();
-            ctx.moveTo(x1 + 62, bullet1Y + 60);
-            ctx.lineTo(x1 + 62, bullet1Y - 10 + 300);
-            ctx.stroke();
-            bullet1Y -= 5;
-            if (bullet1Y == -55) {
-                bullet1Y = 50;
-                lookingUp2 = false
-                shooting1=false
-                x1=0
-            }
-            
-            
-            
+                ctx.strokeStyle = "black"
+                ctx.beginPath();
+                ctx.moveTo(x1 + 62, bullet1Y + 60);
+                ctx.lineTo(x1 + 62, bullet1Y - 10 + 300);
+                ctx.stroke();
+                bullet1Y -= 5;
+                if (bullet1Y == -55) {
+                    bullet1Y = 50;
+                    lookingUp2 = false
+                    shooting1 = false
+                    x1 = 0
+                }
+
+
+
             }
         }
 
@@ -257,18 +273,18 @@
             ctx.fillStyle = "black";
             ctx.fillText(hpTxt, 75, 60);
             ctx.font = '20px fantasy';
-            ctx.fillText(`Level: ${level}`,W-100,60);
+            ctx.fillText(`Level: ${level}`, W - 100, 60);
         }
 
         // função de atualização // 
 
         function update() {
-            if(shooting==true){
-                        shoot1();
-                    }
-            if(shooting1==true){
-                        shoot2();
-                    }
+            if (shooting == true) {
+                shoot1();
+            }
+            if (shooting1 == true) {
+                shoot2();
+            }
             if (isMultiplayer == false) {
                 if (movesRight == true && lookingUp == false) {
                     ctx.drawImage(images['charR'], charX, charY);
@@ -277,9 +293,9 @@
                     ctx.drawImage(images['charL'], charX, charY)
                 }
                 if (lookingUp == true) {
-                     shooting= true
+                    shooting = true
                     ctx.drawImage(images['charUp'], charX, charY);
-                    
+
                 }
             } else {
                 ctx.drawImage(images['hp2'], 30, 70, 35, 35);
@@ -293,9 +309,9 @@
                     ctx.drawImage(images['charL'], charX, charY);
                 }
                 if (lookingUp == true) {
-                    shooting=true
+                    shooting = true
                     ctx.drawImage(images['charUp'], charX, charY);
-                    
+
                 }
                 if (movesRight2 == true && lookingUp2 == false) {
                     ctx.drawImage(images['char2R'], char2X, char2Y);
@@ -304,9 +320,9 @@
                     ctx.drawImage(images['char2L'], char2X, char2Y);
                 }
                 if (lookingUp2 == true) {
-                    shooting1=true
+                    shooting1 = true
                     ctx.drawImage(images['char2Up'], char2X, char2Y);
-                    
+
                 }
             }
         }
