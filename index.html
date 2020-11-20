@@ -95,14 +95,18 @@
                 ctx.fill();
             }
             update() {
-                if ((this.x + this.R >= charX && this.x + this.R <= charX + charwidth +15) && this.y + this
+                if ((this.x + this.R >= charX && this.x + this.R <= charX + charwidth) && this.y + this
                     .R >=
                     charY) {
-                    this.dX = this.dX;
+                        this.dX = -this.dX
                     this.dY = -this.dY;
                     if (hpTxt>=1){
                     hpTxt--;
                     }
+                /*if (lookingUp==true && this.x + this.R >= charX && this.x + this.R <= charX + charwidth ){
+                    this.dX = -this.dX;
+                    this.dy = -this.dY;
+                }*/
                 }
                 if (isMultiplayer === true) {
                     if ((this.x + this.R >= char2X && this.x + this.R <= char2X + charwidth + 15) && this.y + this
@@ -148,7 +152,7 @@
 
             //random velocity
             let direction = Math.random() * 2 * Math.PI;
-            let a = 0.2;
+            let a = 0.15;
             // x, y, r, v, c
             b.push(new Ball(xInit, yInit, radius, direction, a, color));
         }
