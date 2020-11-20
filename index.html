@@ -40,7 +40,7 @@
             char2Y = 305,
             bullet1Y = 50;
         bullet2Y = 50;
-        ballsnumber = 3;
+
 
 
         //Carregando assets //
@@ -132,14 +132,14 @@
         let R,G,B;
         let color = ''
         // Criação de array para as bolas // 
-        let radius = 20;
+        let radius = 40;
         let xInit = 50;
         let yInit = H / 5;
         let direction = 2 * Math.PI;
         let a = 0.15;
         let b = new Array();
 
-        for (let i = 0; i < ballsnumber; i++) {
+        function createBall(){
             xInit = 50;
             //random color
             R = Math.floor(Math.random() * 256);
@@ -152,7 +152,10 @@
             // x, y, r, v, c
             b.push(new Ball(xInit, yInit, radius, direction, a, color));
         }
-        
+
+        for(let i=0;i<3;i++){
+        createBall();
+        }
 
         function multiplayer() {
             if (isMultiplayer == true) {
@@ -160,16 +163,20 @@
             } else {
                 isMultiplayer = true;
                 charX = W / 3;
-                ballsnumber = 5;
+                b = []
+                for(let i=0;i<5;i++){
+                    createBall();
+                }
             }
         }
         // Strings do Jogo // 
 
         let hpTxt = 3;
         let hpTxt2 = 3;
-        let shooting = false
-        let shooting1 = false
-        let x=0
+        let level = 1;
+        let shooting = false;
+        let shooting1 = false;
+        let x=0;
         let x1=0;
 
         function shoot1() {
@@ -249,7 +256,8 @@
             ctx.drawImage(images['hp'], 30, 30, 35, 35);
             ctx.fillStyle = "black";
             ctx.fillText(hpTxt, 75, 60);
-            ctx.font = '30px fantasy';
+            ctx.font = '20px fantasy';
+            ctx.fillText(`Level: ${level}`,W-100,60);
         }
 
         // função de atualização // 
