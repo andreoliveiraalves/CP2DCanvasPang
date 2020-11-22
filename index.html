@@ -56,6 +56,8 @@
         let lookingUp = false;
         let lookingUp2 = false;
         let isMultiplayer = false;
+        let detect = false;
+        let detect2 = false;
 
         // Construção de classe para as bolas //
         let R, G, B;
@@ -67,7 +69,7 @@
         let xInit = 50;
         let yInit = H / 5;
         let direction = 2 * Math.PI;
-        let a = 0.05;
+        let a = 0.15;
         let b = new Array();
 
 
@@ -127,7 +129,19 @@
                     };
 
                 }
-                if(shooting==true &&( this.x + this.R >= charX + 62 && this.x + this.R <= charX + charwidth)){
+                if (((shooting == true && (this.x + this.R >= charX + 62 && this.x + this.R <= charX +
+                    charwidth))) && (detect == false)) {
+                    detect = true
+
+                    if (this.R == 40) {
+                        createBall(radius / 2, direction, this.x, this.y);
+                        createBall(radius / 2, -direction, this.x, this.y);
+                    } else if (this.R == 20) {
+                        createBall(radius / 4, direction, this.x, this.y);
+                        createBall(radius / 4, -direction, this.x, this.y);
+                    }
+
+                    b.splice(b.indexOf(this), 1)
                 }
 
                 if (isMultiplayer === true) {
@@ -139,6 +153,20 @@
                         if (hpTxt2 >= 1) {
                             hpTxt2--;
                         }
+                    }
+                    if (((shooting1 == true && (this.x + this.R >= char2X + 62 && this.x + this.R <= char2X +
+                            charwidth))) && (detect2 == false)) {
+                        detect2 = true
+
+                        if (this.R == 40) {
+                            createBall(radius / 2, direction, this.x, this.y);
+                            createBall(radius / 2, -direction, this.x, this.y);
+                        } else if (this.R == 20) {
+                            createBall(radius / 4, direction, this.x, this.y);
+                            createBall(radius / 4, -direction, this.x, this.y);
+                        }
+
+                        b.splice(b.indexOf(this), 1)
                     }
                 }
                 if (this.x < this.R || this.x > W - this.R) {
@@ -156,19 +184,27 @@
         }
 
 
-        function createBall(myradius, mydirection, id) {
+        function createBall(myradius, mydirection, currX, currY) {
             ball_id++;
-            xInit = 50;
+
             //random color
             R = Math.floor(Math.random() * 256);
             G = Math.floor(Math.random() * 256);
             B = Math.floor(Math.random() * 256);
             color = `rgb(${R},${G},${B})`;
             // random position in X
-            xInit += 400 * Math.random();
-            direction *= Math.random()
+            if (myradius == 40) {
+                xInit = 50;
+                xInit += 400 * Math.random();
+                mydirection *= Math.random()
+            } else {
+                xInit = currX
+                yInit = currY
+                mydirection *= Math.random()
+            }
             // x, y, r, v, c
-            b.push(new Ball(xInit, yInit, myradius, mydirection, a, color, id));
+            b.push(new Ball(xInit, yInit, myradius, mydirection, a, color));
+            console.log(b)
         }
         //função que gera as bolas//
         function startballs() {
@@ -201,11 +237,11 @@
             }
             if (x != charX || x == charX) {
 
-                ctx.drawImage(images['shoot1'], x+62, bullet1Y + 50, 10, 13)
+                ctx.drawImage(images['shoot1'], x + 62, bullet1Y + 50, 10, 13)
                 ctx.strokeStyle = "black"
                 ctx.beginPath();
-                ctx.moveTo(x+62, bullet1Y + 60);
-                ctx.lineTo(x+62, bullet1Y - 10 + 300);
+                ctx.moveTo(x + 62, bullet1Y + 60);
+                ctx.lineTo(x + 62, bullet1Y - 10 + 300);
                 ctx.stroke();
                 bullet1Y -= 5;
                 if (bullet1Y == -55) {
@@ -213,6 +249,7 @@
                     lookingUp = false
                     shooting = false
                     x = 0
+                    detect = false
                 }
 
             }
@@ -238,6 +275,7 @@
                     lookingUp2 = false
                     shooting1 = false
                     x1 = 0
+                    detect2 = false;
                 }
             }
         }
@@ -290,9 +328,9 @@
                     ball_id = 0;
                     level += 1;
                     lvlBalls++;
-                    radius= 40;
+                    radius = 40;
                     startballs();
-                    
+
                 }
             } else {
                 ctx.drawImage(images['hp2'], 30, 70, 35, 35);
@@ -322,7 +360,7 @@
 
                 }
                 if (b.length == 0) {
-                    ball_id= 0;
+                    ball_id = 0;
                     level += 1;
                     lvlBalls++;
                     startballs();
@@ -340,6 +378,8 @@
                 ball.update();
             });
             window.requestAnimationFrame(render);
+
+
         }
         render();
 
