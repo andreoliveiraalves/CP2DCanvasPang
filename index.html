@@ -40,7 +40,36 @@
             char2Y = 305,
             bullet1Y = 50;
         bullet2Y = 50;
+        x = 0;
+        x1 = 0;
 
+        // Strings do Jogo // 
+
+        let hpTxt = 3;
+        let hpTxt2 = 3;
+        let level = 1;
+        let shooting = false;
+        let shooting1 = false;
+
+        // Boleano de Controlo de direção //
+        let movesRight2 = false;
+        let movesRight = true;
+        let lookingUp = false;
+        let lookingUp2 = false;
+        let isMultiplayer = false;
+
+        // Construção de classe para as bolas //
+        let R, G, B;
+        let color = ''
+        let ball_id = 0;
+        let lvlBalls = 3
+        // Criação de array para as bolas // 
+        let radius = 40;
+        let xInit = 50;
+        let yInit = H / 5;
+        let direction = 2 * Math.PI;
+        let a = 0.15;
+        let b = new Array();
 
 
         //Carregando assets //
@@ -66,26 +95,10 @@
         loadImage('shoot1');
         loadImage('shoot2');
 
-        // Boleano de Controlo de direção //
-        let movesRight2 = false;
-        let movesRight = true;
-        let lookingUp = false;
-        let lookingUp2 = false;
-        let isMultiplayer = false;
 
-        // Construção de classe para as bolas //
-        let R, G, B;
-        let color = ''
-        // Criação de array para as bolas // 
-        let radius = 40;
-        let xInit = 50;
-        let yInit = H / 5;
-        let direction = 2 * Math.PI;
-        let a = 0.15;
-        let b = new Array();
 
         class Ball {
-            constructor(x, y, r, d, a, c) { //construtor
+            constructor(x, y, r, d, a, c, id) { //construtor
                 this.R = r; //radius
                 this.x = x; // initial X position
                 this.y = y; // initial Y position
@@ -93,6 +106,7 @@
                 this.dX = 6 * Math.cos(-d);
                 this.dY = 3 * Math.sin(-d / 2);
                 this.c = c; //cor
+                this.id = ball_id;
             }
             draw() {
                 ctx.fillStyle = this.c;
@@ -111,23 +125,10 @@
                     this.dY = -this.dY;
                     if (hpTxt >= 1) {
                         hpTxt--;
-                    }
-                    if(radius==40){
-                    createBall(radius/2,direction);
-                    direction=-direction;
-                    createBall(radius/2,direction);
-                    direction=-direction;
-                    radius=20;
-                    }
-                    else{
-                    createBall(radius/4,direction);
-                    direction=-direction;
-                    createBall(radius/4,direction);
-                    direction=-direction;
+                    };
 
-                    }
-                    
                 }
+
                 if (isMultiplayer === true) {
                     if ((this.x + this.R >= char2X && this.x + this.R <= char2X + charwidth + 15) && this.y + this
                         .R >=
@@ -151,11 +152,12 @@
                 this.y += this.dY;; // update vertical position
 
             }
-
         }
-        
 
-        function createBall(myradius,mydirection) {
+
+
+        function createBall(myradius, mydirection, id) {
+            ball_id++;
             xInit = 50;
             //random color
             R = Math.floor(Math.random() * 256);
@@ -166,34 +168,31 @@
             xInit += 400 * Math.random();
             direction *= Math.random()
             // x, y, r, v, c
-            b.push(new Ball(xInit, yInit, myradius, mydirection, a, color));
+            b.push(new Ball(xInit, yInit, myradius, mydirection, a, color, id));
         }
 
-        for (let i = 0; i < 1; i++) {
-            createBall(radius,direction);
+        //função que gera as bolas//
+        function startballs() {
+            for (let i = 0; i < lvlBalls; i++) {
+                createBall(radius, direction);
+            }
         }
+
+        // Bolas Iniciais para o jogo //
+        startballs();
+
 
         function multiplayer() {
             if (isMultiplayer == true) {
                 window.location.reload();
             } else {
+                lvlBalls = 5;
                 isMultiplayer = true;
                 charX = W / 3;
                 b = []
-                for (let i = 0; i < 5; i++) {
-                    createBall(radiusn,direction);
-                }
+                startballs();
             }
         }
-        // Strings do Jogo // 
-
-        let hpTxt = 3;
-        let hpTxt2 = 3;
-        let level = 1;
-        let shooting = false;
-        let shooting1 = false;
-        let x = 0;
-        let x1 = 0;
 
         function shoot1() {
 
@@ -297,6 +296,11 @@
                     ctx.drawImage(images['charUp'], charX, charY);
 
                 }
+                if (b.length == 0) {
+                    level += 1;
+                    lvlBalls++;
+                    startballs();
+                }
             } else {
                 ctx.drawImage(images['hp2'], 30, 70, 35, 35);
                 ctx.fillStyle = "black";
@@ -323,6 +327,11 @@
                     shooting1 = true
                     ctx.drawImage(images['char2Up'], char2X, char2Y);
 
+                }
+                if (b.length == 0) {
+                    level += 1;
+                    lvlBalls++;
+                    startballs();
                 }
             }
         }
