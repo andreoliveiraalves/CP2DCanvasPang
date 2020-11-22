@@ -21,7 +21,7 @@
     <canvas class="center" id="myCanvas" width="800" height="475" style="border:solid 1px black">
         Your browser does not support HTML5 Canvas.
     </canvas>
-    <button id="btn" onclick="multiplayer()">Multiplayer</button>
+    <button id="btn" onclick="multiplayer()">Multiplayer / Play Again</button>
     <script>
         //obter contexto do canvas //
         const canvas = document.querySelector('#myCanvas');
@@ -216,7 +216,13 @@
         // Bolas Iniciais para o jogo //
         startballs();
 
-
+        function gameOver(){
+            if(hpTxt==0 || hpTxt2==0){
+                ctx.font = '50px fantasy';
+                ctx.fillText('Game Over!', W/2 -100, H/2);
+                ctx.clear();
+            }
+        }
         function multiplayer() {
             if (isMultiplayer == true) {
                 window.location.reload();
@@ -306,6 +312,7 @@
         // função de atualização // 
 
         function update() {
+            gameOver();
             if (shooting == true) {
                 shoot1();
             }
