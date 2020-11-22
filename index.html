@@ -50,7 +50,6 @@
         let level = 1;
         let shooting = false;
         let shooting1 = false;
-
         // Boleano de Controlo de direção //
         let movesRight2 = false;
         let movesRight = true;
@@ -68,7 +67,7 @@
         let xInit = 50;
         let yInit = H / 5;
         let direction = 2 * Math.PI;
-        let a = 0.15;
+        let a = 0.05;
         let b = new Array();
 
 
@@ -128,6 +127,8 @@
                     };
 
                 }
+                if(shooting==true &&( this.x + this.R >= charX + 62 && this.x + this.R <= charX + charwidth)){
+                }
 
                 if (isMultiplayer === true) {
                     if ((this.x + this.R >= char2X && this.x + this.R <= char2X + charwidth + 15) && this.y + this
@@ -155,7 +156,6 @@
         }
 
 
-
         function createBall(myradius, mydirection, id) {
             ball_id++;
             xInit = 50;
@@ -170,7 +170,6 @@
             // x, y, r, v, c
             b.push(new Ball(xInit, yInit, myradius, mydirection, a, color, id));
         }
-
         //função que gera as bolas//
         function startballs() {
             for (let i = 0; i < lvlBalls; i++) {
@@ -202,11 +201,11 @@
             }
             if (x != charX || x == charX) {
 
-                ctx.drawImage(images['shoot1'], x + 56, bullet1Y + 50, 10, 13)
+                ctx.drawImage(images['shoot1'], x+62, bullet1Y + 50, 10, 13)
                 ctx.strokeStyle = "black"
                 ctx.beginPath();
-                ctx.moveTo(x + 62, bullet1Y + 60);
-                ctx.lineTo(x + 62, bullet1Y - 10 + 300);
+                ctx.moveTo(x+62, bullet1Y + 60);
+                ctx.lineTo(x+62, bullet1Y - 10 + 300);
                 ctx.stroke();
                 bullet1Y -= 5;
                 if (bullet1Y == -55) {
@@ -216,15 +215,9 @@
                     x = 0
                 }
 
-
-
             }
         }
 
-        function update_shoot() {
-            bullet1Y -= 0.5;
-            bullet2Y -= 0.5
-        }
 
         function shoot2() {
 
@@ -246,9 +239,6 @@
                     shooting1 = false
                     x1 = 0
                 }
-
-
-
             }
         }
 
@@ -297,9 +287,12 @@
 
                 }
                 if (b.length == 0) {
+                    ball_id = 0;
                     level += 1;
                     lvlBalls++;
+                    radius= 40;
                     startballs();
+                    
                 }
             } else {
                 ctx.drawImage(images['hp2'], 30, 70, 35, 35);
@@ -329,6 +322,7 @@
 
                 }
                 if (b.length == 0) {
+                    ball_id= 0;
                     level += 1;
                     lvlBalls++;
                     startballs();
