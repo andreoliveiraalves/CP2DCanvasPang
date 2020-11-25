@@ -23,28 +23,28 @@
             display: block;
             width: 800px;
             height: 475px;
-            background-color: black;
+            background-color: black; /* Hex code do background (castanho)*/
         }
         
         #logo path:nth-child(2){
             stroke-dasharray: 264px;
             stroke-dashoffset: 264px;
-            animation: line-anim 5s ease forwards 0.3s;
+            animation: line-anim 5s ease forwards 1.2s, color 10s infinite linear;
         }
         #logo path:nth-child(3){
-            stroke-dasharray: 301px;
-            stroke-dashoffset: 301px;
-            animation: line-anim 5s ease forwards 0.6s;
+            stroke-dasharray: 302px;
+            stroke-dashoffset: 302px;
+            animation: line-anim 5s ease forwards 1.2s, color 10s infinite linear;
         }
         #logo path:nth-child(4){
-            stroke-dasharray: 391px;
-            stroke-dashoffset: 391px;
-            animation: line-anim 5s ease forwards 0.9s;
+            stroke-dasharray: 393px;
+            stroke-dashoffset: 393px;
+            animation: line-anim 5s ease forwards 1.2s, color 10s infinite linear;
         }
         #logo path:nth-child(5){
-            stroke-dasharray: 368px;
-            stroke-dashoffset: 368px;
-            animation: line-anim 5s ease forwards 1.2s;
+            stroke-dasharray: 372px;
+            stroke-dashoffset: 372px;
+            animation: line-anim 5s ease forwards 1.2s, color 10s infinite linear;
         }
         
         @keyframes line-anim{
@@ -55,12 +55,42 @@
 
         @keyframes color{
             from{
-                fill:white;
+                fill:#4338D4;
             }
-            to{
-                
+            25%{
+                fill: #4b68a8;
+            }
+            50%{
+                fill: black;
+            }
+            75%{
+                fill:#974a43;
+            }
+            100%{
+                fill:#A8534B;
             }
         }
+        
+/*
+        .svgButton{
+            font-size:100px;
+    fill: none;
+    stroke-width: 2;
+    stroke:#000000;
+    stroke-dasharray: 50 10;
+    stroke-dashoffset: 0;
+    animation: but-anim 20s infinite linear
+
+    animation only when cursor hits button
+        }
+         */
+
+        @keyframes but-anim {
+            100% {
+            stroke-dashoffset: -1000;
+        }
+        }
+
         
     </style>
 </head>
@@ -80,20 +110,16 @@
         
     </svg>
 
+    <svg id="svgButton" width ="800" height="475" viewBox="0 100 800 575" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>> 
+        <a href="#"> 
+            <rect x="300" y="200" height="40" width="200"
+                    stroke="yellow"
+                    fill="rgba(255,255,255,100)"
+                    stroke-width="2">Start Game</rect>
+    </svg>
+
+
         
-<!--botoes: sprite goes from the start to the end of the button (singleplayer)
-            one sprite goes to the end and the other stays in the same place (multiplayer)
-        pulsing text
-
-        Text font: BUNGEE OUTLINE
-
-<g> 
-            <a href="#"> 
-                <rect x="300" y="200" height="40" width="200"
-                        stroke="yellow"
-                        fill="rgba(255,255,255,100)"
-                        stroke-width="2">Start Game</rect>
-        </g>
-         -->
+<!-- Text font: BUNGEE OUTLINE-->
 </body>
 </html>
