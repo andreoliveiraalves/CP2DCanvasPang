@@ -5,14 +5,36 @@
     <meta charset="UTF-8">
     <title>PANG_GAME</title>
     <style>
-        canvas,
-        button {
+        canvas{
             /* Centrar canvas na página */
             padding-left: 0;
             padding-right: 0;
             margin-left: auto;
             margin-right: auto;
             display: block;
+            background-color:#974a43;
+            border: 1px solid black;
+            padding: 50px 50px 15px 50px;
+            
+        }
+        button{
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            background-color:#974a43;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            border: 1px solid black;
+            padding: 15px 50px 15px 50px;
+            
+            
+        }
+        *{
+        background-color: #625740; /* Hex code do background (castanho)*/
         }
     </style>
 </head>
@@ -21,7 +43,7 @@
     <canvas class="center" id="myCanvas" width="800" height="475" style="border:solid 1px black">
         Your browser does not support HTML5 Canvas.
     </canvas>
-    <button id="btn" onclick="multiplayer()">Multiplayer / Play Again</button>
+    <button id="btn" onclick="multiplayer()">Multiplayer | Double Click To Play Again</button>
     <script>
         //obter contexto do canvas //
         const canvas = document.querySelector('#myCanvas');
@@ -63,7 +85,7 @@
         let R, G, B;
         let color = ''
         let ball_id = 0;
-        let lvlBalls = 3
+        let lvlBalls = 1;
         // Criação de array para as bolas // 
         let radius = 40;
         let xInit = 50;
@@ -227,7 +249,7 @@
             if (isMultiplayer == true) {
                 window.location.reload();
             } else {
-                lvlBalls = 5;
+                lvlBalls = 2;
                 isMultiplayer = true;
                 charX = W / 3;
                 b = []
@@ -397,7 +419,7 @@
                 case 'ArrowLeft':
                     /*LEFT arrow*/
                     if (charX > 0) {
-                        charX -= 30;
+                        charX -= 50;
                         movesRight = false;
                         lookingUp = false;
                     };
@@ -405,7 +427,7 @@
                 case 'ArrowRight':
                     /*RIGHT arrow*/
                     if (charX < canvas.width - 90) {
-                        charX += 30;
+                        charX += 50;
                         movesRight = true
                         lookingUp = false;
                     };
@@ -415,14 +437,14 @@
                     break;
                 case 'a':
                     if (char2X > 0) {
-                        char2X -= 30;
+                        char2X -= 50;
                         movesRight2 = false;
                         lookingUp2 = false;
                     }
                     break;
                 case 'd':
                     if (char2X < canvas.width - 90) {
-                        char2X += 30;
+                        char2X += 50;
                         movesRight2 = true;
                         lookingUp2 = false;
                     }
